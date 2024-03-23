@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Arcaea iOS Modder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <h1>Arcaea iOS Modder</h1>
+    <div style="text-align:center;">
+        <a href="/files/Arc-mobile_520" style="text-align:center;">没有Arc-mobile？</a>
+        <a href="https://cowtransfer.com/s/350eaa40fea34c" style="text-align:center;">搞什么啊，我要直接玩</a>
+    </div>
+    
+    <footer id="footer" align="center" class="footer">修改自CHUNITHM Modder</footer>
+    <script type="text/javascript" src="js/dllpatcher.js"></script>
+    <script type="text/javascript">
+        window.addEventListener("load", function () {
+            new PatchContainer([
+
+                //AIR PLUS
+                new Patcher("Arc-mobile", "5.2.0", [
+                    {
+                        name: "去除Json校验",
+                        tooltip: "关闭时将无法修改「songlist」「packlist」和「unlcoks」",
+                        patches: [
+                            { offset: 0x8D784, on: [0x1F, 0x20, 0x03, 0xD5], off: [0xc0, 0x0d, 0x00, 0x35] },
+                            { offset: 0x8D7E8, on: [0x1F, 0x20, 0x03, 0xD5], off: [0xA0, 0x0A, 0x00, 0x35] },
+                            { offset: 0x8D84C, on: [0x1F, 0x20, 0x03, 0xD5], off: [0x80, 0x07, 0x00, 0x35] }
+                        ]
+                    },
+                    {
+                        name: "允许读取特效语句",
+                        tooltip: "开启时将可以读取camera,scenecontrol...",
+                        patches: [
+                            { offset: 0x267914, off:[0x00 ,0x20 ,0x44 ,0x39],on: [0x20 ,0x00 ,0x80 ,0x52] },//SC
+
+                            { offset: 0x265ACC, off:[0x68 ,0x22 ,0x44 ,0x39],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+                            { offset: 0x265AD4, off:[0xC8 ,0x03 ,0x00 ,0x34],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+
+                            { offset: 0x265C18, off:[0x68 ,0x22 ,0x44 ,0x39],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+                            { offset: 0x265C1C, off:[0x88 ,0xFE ,0xFF ,0x34],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+
+                            { offset: 0x265C60, off:[0x68 ,0x22 ,0x44 ,0x39],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+                            { offset: 0x265C64, off:[0x28 ,0x0A ,0x00 ,0x34],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+
+                            { offset: 0x2686E0, off:[0x68 ,0x22 ,0x44 ,0x39],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+                            { offset: 0x2686E4, off:[0x48 ,0x01 ,0x00 ,0x34],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+
+                            { offset: 0x2686C8, off:[0x68 ,0x22 ,0x44 ,0x39],on: [0x1F ,0x20 ,0x03 ,0xD5] },
+                            { offset: 0x2686C0, off:[0x3F ,0x08 ,0x00 ,0x71],on: [0x3F ,0xC8 ,0x01 ,0x71] },//LogicChart::Arc
+                        ]
+                    },
+                    {
+                        name: "去除BYD锁",
+                        tooltip: "开启时将默认解锁BYD难度",
+                        patches: [
+                            { offset: 0x449A84, off: [0x1F,0x0D,0x00,0x71], on: [0x1F ,0x1D ,0x00 ,0x71] }//SongManager::loadSongs()
+                        ]
+                    },
+                    {
+                        name: "离线BYD",
+                        tooltip: "「开启此功能时请开启【去除BYD锁】」\n开启时BYD难度可以离线游玩而无需下载",
+                        patches: [
+                            { offset: 0x3C7748, off: [0x3F ,0x0D ,0x00 ,0x71], on: [0x3F ,0xC9 ,0x01 ,0x71] },//SongSelectionCell:setSelected()
+                            { offset: 0x203634, off: [0x9F ,0x0E ,0x00 ,0x71], on: [0x9F ,0xCA ,0x01 ,0x71] },//Song::getChartFilepathForDifficultyClass() 
+                            { offset: 0x41AA30, off: [0xBF ,0x0E ,0x00 ,0x71], on: [0xBF ,0x42 ,0x02 ,0x71] }//SongSelectScene::getRequiredAssetsAndTokenForStartGameScene() 
+                        ]
+                    },
+                    {
+                        name: "允许使用角色「洞烛」",
+                        tooltip: "「开启此功能时不会去除原有的角色数值特效」",
+                        patches: [
+                            { offset: 0x59A08, on: [0x3F ,0xFD ,0x3F ,0x71], off: [0x3F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x5DAEC, on: [0x1F ,0xFD ,0x3F ,0x71], off: [0x1F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x5EA60, on: [0x1F ,0xFD ,0x3F ,0x71], off: [0x1F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x5EB18, on: [0x1F ,0xFD ,0x3F ,0x71], off: [0x1F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x62F58, on: [0x1F ,0xFD ,0x3F ,0x71], off: [0x1F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x6A354, on: [0x3F ,0xFD ,0x3F ,0x71], off: [0x3F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x6B5F4, on: [0x1F ,0xFD ,0x3F ,0x71], off: [0x1F ,0x21 ,0x01 ,0x71] },
+                            { offset: 0x6B874, on: [0x1F ,0xFD ,0x3F ,0x71], off: [0x1F ,0x21 ,0x01 ,0x71] }
+                        ]
+                    }
+                ]),
+            ]);
+        });
+    </script>
+</head>
+
+<body>
+</body>
+</html>
